@@ -1,0 +1,15 @@
+package com.swisssystem.modules
+
+import javax.inject.Singleton
+
+import com.google.inject.Provides
+import com.twitter.inject.TwitterModule
+import com.typesafe.config.Config
+
+object SlickDatabaseModule extends TwitterModule {
+  import slick.driver.SQLiteDriver.api._
+  type SlickDatabaseSource = slick.driver.SQLiteDriver.api.Database
+
+  @Singleton @Provides
+  def provideDatabase(config: Config): SlickDatabaseSource = Database.forConfig("sqliteConfig", config)
+}
