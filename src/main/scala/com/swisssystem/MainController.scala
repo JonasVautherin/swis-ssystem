@@ -8,7 +8,12 @@ import com.twitter.finatra.http.Controller
 
 class MainController @Inject() (playerService: PlayerService) extends Controller {
   get("/ping") { request: Request =>
-    info("ping")
+    logger info "ping"
     "pong"
+  }
+
+  get("/players") { request: Request =>
+    logger info "players"
+    playerService fetchPlayers
   }
 }
