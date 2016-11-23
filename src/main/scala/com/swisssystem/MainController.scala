@@ -2,11 +2,13 @@ package com.swisssystem
 
 import javax.inject.Inject
 
-import com.swisssystem.services.PlayerService
+import com.swisssystem.services.TournamentService
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
 
-class MainController @Inject() (playerService: PlayerService) extends Controller {
+case class InsertPlayerRequest(name: String)
+
+class MainController @Inject() (tournamentService: TournamentService) extends Controller {
   get("/ping") { request: Request =>
     logger info "ping"
     "pong"
@@ -14,6 +16,11 @@ class MainController @Inject() (playerService: PlayerService) extends Controller
 
   get("/players") { request: Request =>
     logger info "players"
-    playerService fetchPlayers
+    tournamentService fetchPlayers
+  }
+
+  post("/player") { request: InsertPlayerRequest =>
+    logger info s"adding player ${request.name}"
+    tournamentService.insertPlayer(request.name)
   }
 }
